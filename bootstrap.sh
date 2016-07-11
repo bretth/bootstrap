@@ -9,11 +9,7 @@ apt --quiet --yes update
 apt -qy upgrade
 apt -qy install git mosh python unattended-upgrades
 
-ufw limit ssh
-ufw allow mosh
-
-yes | ufw enable
-
+# clone the current config files
 git clone https://github.com/bretth/bootstrap
 
 # tighten ssh
