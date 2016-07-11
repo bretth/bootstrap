@@ -28,3 +28,5 @@ Cloud providers have a once off script that can be run on first boot. We want tw
     cp /tmp/*.log /root
     reboot
 
+Note that in some providers such as Vultr creating a new instance is not the same as re-installing an existing instance.
+
