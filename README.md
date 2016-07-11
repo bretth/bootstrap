@@ -1,15 +1,30 @@
 README
 ======
 
-Add a node with a one-off startup script that executes the current bootstrap.sh script and minion.sh or master.sh
+Bootstrap a salt server
+
+Cloud providers have a once off script that can be run on first boot. We want two very simple scripts that do 4 things:
+
+1) Run the current bootstrap script from a github repository
+2) Run any role specific bootstrap script to install salt minion or master
+3) Copy any logs from the the scripts above to the root home
+4) Reboot the instance
 
     #!/bin/sh
 
+    # For the salt master
+    curl -L https://raw.githubusercontent.com/bretth/bootstrap/master/bootstrap.sh | sh 
+    source bootstrap/master.sh
+    # On vultr the output is logged to /tmp
+    cp /tmp/*.log /root
+    reboot
+
+    #!/bin/sh
+
+    # for the salt minion
     curl -L https://raw.githubusercontent.com/bretth/bootstrap/master/bootstrap.sh | sh 
     source bootstrap/minion.sh
+    # On vultr the output is logged to /tmp
+    cp /tmp/*.log /root
+    reboot
 
-On Vultr these scripts are executed by the VPS the very first time it starts up.
-
-The startup script is saved to /tmp/firstboot.exec
-Output produced can be found in /tmp/firstboot.log
-Scripts are executed using /bin/bash (Linux)
